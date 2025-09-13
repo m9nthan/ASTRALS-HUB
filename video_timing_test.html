@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Timing Test - Astrals Hub</title>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #ff4500;
+        }
+        video {
+            width: 60%;
+            max-width: 600px;
+            border: 2px solid #ff4500;
+            border-radius: 10px;
+        }
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff4500;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 Video Timing Test</h1>
+    <p>Testing your intro.mp4 video duration and playback...</p>
+    
+    <div class="info">
+        <strong>Current Settings:</strong><br>
+        • Splash screen duration: 8 seconds<br>
+        • Video will loop during this time<br>
+        • Login modal appears after splash screen
+    </div>
+    
+    <video id="testVideo" controls autoplay muted loop>
+        <source src="static/videos/intro.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <div class="timer" id="timer">00:00</div>
+    
+    <div class="info">
+        <div id="videoInfo">Loading video information...</div>
+    </div>
+    
+    <div class="info">
+        <div id="playbackInfo">Waiting for video to load...</div>
+    </div>
+    
+    <script>
+        const video = document.getElementById('testVideo');
+        const timer = document.getElementById('timer');
+        const videoInfo = document.getElementById('videoInfo');
+        const playbackInfo = document.getElementById('playbackInfo');
+        
+        let startTime = Date.now();
+        
+        // Update timer
+        setInterval(() => {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+        
+        video.addEventListener('loadedmetadata', function() {
+            videoInfo.innerHTML = `
+                <strong>Video Information:</strong><br>
+                • Duration: ${video.duration.toFixed(2)} seconds<br>
+                • Resolution: ${video.videoWidth}x${video.videoHeight}<br>
+                • File size: ~3.7MB (from logs)
+            `;
+        });
+        
+        video.addEventListener('play', function() {
+            playbackInfo.innerHTML = `
+                <strong>Playback Status:</strong><br>
+                • ✅ Video is playing<br>
+                • 🔄 Looping enabled<br>
+                • ⏱️ Will play for 8 seconds in splash screen
+            `;
+        });
+        
+        video.addEventListener('error', function(e) {
+            videoInfo.innerHTML = `
+                <strong>❌ Error:</strong><br>
+                Video failed to load. Check file path and format.
+            `;
+        });
+        
+        // Simulate splash screen timing
+        setTimeout(() => {
+            playbackInfo.innerHTML += '<br><br>🎯 <strong>8 seconds elapsed - This is when splash screen would fade out!</strong>';
+        }, 8000);
+    </script>
+    
+    <p><a href="http://localhost:5000" style="color: #ff4500;">← Back to Astrals Hub</a></p>
+</body>
+</html>
+
