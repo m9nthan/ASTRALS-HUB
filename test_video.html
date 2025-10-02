@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Test - Astrals Hub</title>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        video {
+            width: 80%;
+            max-width: 800px;
+            border: 2px solid #ff4500;
+            border-radius: 10px;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success { background: #4CAF50; }
+        .error { background: #f44336; }
+    </style>
+</head>
+<body>
+    <h1>🎬 Astrals Hub - Video Test</h1>
+    <p>Testing your intro.mp4 video file...</p>
+    
+    <video id="testVideo" controls autoplay muted loop>
+        <source src="static/videos/intro.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <div id="status" class="status">Loading video...</div>
+    
+    <script>
+        const video = document.getElementById('testVideo');
+        const status = document.getElementById('status');
+        
+        video.addEventListener('loadeddata', function() {
+            status.textContent = '✅ Video loaded successfully!';
+            status.className = 'status success';
+        });
+        
+        video.addEventListener('error', function() {
+            status.textContent = '❌ Video failed to load. Check the file path.';
+            status.className = 'status error';
+        });
+        
+        video.addEventListener('play', function() {
+            console.log('Video is playing');
+        });
+    </script>
+    
+    <p><a href="http://localhost:5000" style="color: #ff4500;">← Back to Astrals Hub</a></p>
+</body>
+</html>
+
